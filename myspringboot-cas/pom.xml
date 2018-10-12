@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yhjr.project</groupId>
+		<artifactId>project-springboot-parent</artifactId>
+		<version>0.0.1-release</version>
+	</parent>
+	<artifactId>myspringboot-cas</artifactId>
+	<name>myspringboot-cas</name>
+	<description>cas服务配置</description>
+
+	<properties>
+		<shiro.version>1.2.4</shiro.version>
+	</properties>
+
+	<dependencies>
+		
+        <dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-web</artifactId>  
+        </dependency>  
+        <!-- security starter Poms -->  
+        <dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-security</artifactId>  
+        </dependency>  
+        <!-- security 对CAS支持 -->  
+        <dependency>  
+            <groupId>org.springframework.security</groupId>  
+            <artifactId>spring-security-cas</artifactId>  
+        </dependency>  
+        <!-- security taglibs -->  
+        <dependency>  
+            <groupId>org.springframework.security</groupId>  
+            <artifactId>spring-security-taglibs</artifactId>  
+        </dependency>
+		
+		<!--Apache Shiro -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-cas</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+	</dependencies>
+	
+</project>
