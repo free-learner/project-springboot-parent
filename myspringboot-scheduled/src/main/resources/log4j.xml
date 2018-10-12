@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+		      <!--  <param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} %5p %c{1}:%L - %m%n" /> -->
+			  <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %5p %c{1}:%L - %m%n"/>
+		</layout>
+	</appender>
+	<appender name="InfoFileAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="MaxFileSize" value="50MB"/> 
+		 <param name="File" value="/usr/local/app/logs/myspringboot-scheduled/info.log" />    
+		<param name="Append" value="true"/>
+		<param name="ImmediateFlush" value="true"/>  
+		<param name="MaxBackupIndex" value="100"/> 
+		<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %5p %c{1}:%L - %m%n"/>
+		</layout>
+	</appender>
+	
+	<!-- org.apache.log4j.DailyRollingFileAppender or  com.personal.springboot.common.MyDayRollingFileAppender-->
+	<appender name="ErrorFileAppender" class="com.personal.springboot.common.MyDayRollingFileAppender">
+         <param name="File" value="/usr/local/app/logs/myspringboot-scheduled/error.log" /> 
+         
+         <param name="maxBackupIndex" value="2" />   
+        <!--  <param name="DatePattern" value="'.'yyyy-MM-dd" />   -->
+          
+        <param name="Append" value="true"/>
+        <param name="ImmediateFlush" value="true"/>  
+        <layout class="org.apache.log4j.PatternLayout">
+              <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %5p %c{1}:%L - %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">  
+            <param name="levelMin" value="ERROR" />  
+            <param name="levelMax" value="ERROR" />  
+            <param name="AcceptOnMatch" value="true" />  
+        </filter> 
+    </appender>
+	
+	<logger name="org.springframework.beans">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.binding">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.jdbc">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.transaction">
+		<level value="debug" />
+	</logger>
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+	<logger name="org.springframework.boot">
+		<level value="info" />
+	</logger>
+	<logger name="com.alibaba">
+		<level value="debug" />
+	</logger>
+	<logger name="com.personal.springboot.scheduled">
+		<level value="debug" />
+	</logger>
+	
+	<root>
+		<priority value="info" />
+		<appender-ref ref="Console" />
+		<appender-ref ref="InfoFileAppender"/>
+		<appender-ref ref="ErrorFileAppender"/>
+	</root>
+</log4j:configuration>
