@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	default-lazy-init="true"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<description>Spring Configuration</description>
+
+	<!-- Activation Spring's Annotation -->
+	<context:annotation-config />
+
+
+	<!-- 加载配置属性文件 -->
+	<context:property-placeholder
+		ignore-unresolvable="true" location="classpath:props/**/openapi-*.properties" />
+
+	<!--Preload property files, after this, it can be accessed through ${XXX} -->
+	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<bean id="configBean" class="com.crt.openapi.utils.proporty.AppConfig">
+		<property name="locations">
+			<list>
+				<value>classpath:props/**/openapi-cfg-jdbc.properties</value>
+				<value>classpath:props/**/openapi-cfg-app.properties</value>
+				<value>classpath:props/**/openapi-cfg-redis.properties</value>
+				<value>classpath:props/**/openapi-cfg-mq.properties</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="true"></property>
+	</bean>
+
+	<!-- 类型转换及数据格式化 -->
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+
+	<!-- <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> 
+		<property name="targetClass" value="org.springframework.util.Log4jConfigurer" 
+		/> <property name="targetMethod" value="initLogging" /> <property name="arguments"> 
+		<list> <value>classpath:props/openapi-cfg-log4j.properties</value> </list> 
+		</property> </bean> -->
+
+	<!-- 使用Annotation自动注册Bean，解决事务失效问题：主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。 
+		Use-dafault-filters="true"的情况下：<context:exclude-filter>生效，<context:include-filter>无效 
+		Use-dafault-filters="false"的情况下：<context:exclude-filter>生效，<context:include-filter>生效 
+		base-package 如果多个，用","分隔 -->
+
+
+	<context:component-scan
+		base-package="com.crt.openapi.modules.gateway.service.impl,com.crt.openapi.core,com.crt.openapi.apigateway.core.concurrent">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+
+
+	<!-- 基于JDK动态代理 ，可以将@Transactional放置在接口和具体类上。 基于CGLIB类代理，只能将@Transactional放置在具体类上。 -->
+	<!-- switch expose aop proxy for threadlocal support -->
+	<!-- XML configuration Support -->
+	<!-- <aop:config expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:config proxy-target-class="true" />
+
+	<!-- Define aspectj for which class not interfaced forced to Cglib, since 
+		jdk proxy not supported -->
+	<!-- Annotation Support -->
+	<!-- <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<import resource="spring/spring-context-datasource.xml" />	
+	<import resource="spring/spring-context-aop.xml" />
+	<import resource="spring/spring-context-chain.xml" />
+	<import resource="spring/spring-context-redis.xml" />
+	<import resource="spring/spring-context-mq.xml" />
+	<import resource="spring/spring-context-httpclient.xml" />
+	<import resource="mybatis/spring-mybatis-beans.xml" />
+	<import resource="spring-mvc.xml" />
+</beans>

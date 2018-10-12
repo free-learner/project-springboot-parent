@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.7.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<description>Spring MVC Configuration</description>
+
+	<!-- Activation Spring's Annotation -->
+	<context:annotation-config />
+	<context:property-placeholder
+		ignore-unresolvable="true" location="classpath:props/**/openapi-cfg-app.properties" />
+
+	<!-- 使用Annotation自动注册Bean，在SpringMvc中只扫描@Controller注解。 Use-dafault-filters=”true”的情况下：<context:exclude-filter>生效，<context:include-filter>无效 
+		Use-dafault-filters=”false”的情况下：<context:exclude-filter>生效，<context:include-filter>生效 
+		base-package 如果多个，用“,”分隔 -->
+	<context:component-scan base-package="com.crt.openapi.apigateway.web.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 基于JDK动态代理 ，可以将@Transactional放置在接口和具体类上。 基于CGLIB类代理，只能将@Transactional放置在具体类上。 -->
+	<!-- switch expose aop proxy for threadlocal support -->
+	<!-- XML configuration Support -->
+	<!-- <aop:config expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:config proxy-target-class="true" />
+
+	<!-- Define aspectj for which class not interfaced forced to Cglib, since 
+		jdk proxy not supported -->
+	<!-- Annotation Support -->
+	<!-- <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+
+
+	<bean id="exceptionHandler" class="com.crt.openapi.exception.OpenApiExceptionHandler" />
+	<bean id="loadObjectTask" class="com.crt.openapi.task.LoadObjectTask" />
+
+
+	<mvc:interceptors>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/rs-service*/*" />
+			<bean class="com.crt.openapi.interceptor.RsParamInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/ws-service*/*" />
+			<bean class="com.crt.openapi.interceptor.WsParamInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/rs-third-part*/*" />
+			<bean class="com.crt.openapi.interceptor.ThirdPartParamInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			  <mvc:mapping path="/*/*"/>  
+			<bean class="com.crt.openapi.interceptor.SandboxInterceptor">
+			<property name="sandbox" value="${sandbox}" />
+		</bean></mvc:interceptor>		
+	</mvc:interceptors>
+
+</beans>
