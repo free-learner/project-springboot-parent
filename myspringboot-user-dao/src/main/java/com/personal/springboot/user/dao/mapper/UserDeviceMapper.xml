@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.personal.springboot.user.dao.mapper.UserDeviceMapper" >
+  <resultMap id="BaseResultMap" type="userDevice" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="client_id" property="clientId" jdbcType="VARCHAR" />
+    <result column="device_info" property="deviceInfo" jdbcType="VARCHAR" />
+    <result column="device_version" property="deviceVersion" jdbcType="VARCHAR" />
+    <result column="plateform" property="plateform" jdbcType="VARCHAR" />
+    <result column="imei" property="imei" jdbcType="VARCHAR" />
+    <result column="imsi" property="imsi" jdbcType="VARCHAR" />
+    <result column="wifi_mac" property="wifiMac" jdbcType="VARCHAR" />
+    <result column="installed_list" property="installedList" jdbcType="LONGVARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, user_code, device_id, client_id, device_info, device_version, plateform, imei,imsi,wifi_mac,installed_list,
+    del_flag, create_by, update_by, create_date, update_date
+  </sql>
+  <sql id="Base_Column_Where_IF_All">
+  	<trim prefix="WHERE" prefixOverrides="AND|OR">
+  	<if test="id != null" >
+	    id = #{id,jdbcType=BIGINT}
+	 </if>
+  	<if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="userCode != null and userCode != ''" >
+        and user_code = #{userCode,jdbcType=VARCHAR}
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        and device_id = #{deviceId,jdbcType=VARCHAR}
+      </if>
+      <if test="clientId != null and clientId != ''" >
+        and client_id = #{clientId,jdbcType=VARCHAR}
+      </if>
+      <if test="deviceInfo != null and deviceInfo != ''" >
+        and device_info = #{deviceInfo,jdbcType=VARCHAR}
+      </if>
+      <if test="deviceVersion != null and deviceVersion != ''" >
+        and device_version = #{deviceVersion,jdbcType=VARCHAR}
+      </if>
+      <if test="plateform != null and plateform != ''" >
+        and plateform = #{plateform,jdbcType=VARCHAR}
+      </if>
+      <if test="imei != null and imei != ''" >
+        and imei = #{imei,jdbcType=VARCHAR}
+      </if>
+      <if test="imsi != null and imsi != ''" >
+        and imsi = #{imsi,jdbcType=VARCHAR}
+      </if>
+      <if test="wifiMac != null and wifiMac != ''" >
+        and wifi_mac = #{wifiMac,jdbcType=VARCHAR}
+      </if>
+      <if test="installedList != null" >
+        and installed_list = #{installedList,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="delFlag != null" >
+        and del_flag = #{delFlag,jdbcType=TINYINT}
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        and create_by = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        and update_by = #{updateBy,jdbcType=VARCHAR}
+      </if>
+  	</trim>
+  </sql>
+  <select id="selectListByPage" resultMap="BaseResultMap" parameterType="userDevice">
+    select
+    <include refid="Base_Column_List" />
+    from user_device
+    <include refid="Base_Column_Where_IF_All" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_device
+    where id = #{id,jdbcType=BIGINT} and del_flag = false
+  </select>
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_device
+    where code = #{code,jdbcType=VARCHAR} and del_flag = false
+  </select>
+   <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_device
+  </select>
+  <select id="selectByEntity" resultMap="BaseResultMap" parameterType="userDevice">
+    select
+    <include refid="Base_Column_List" />
+    from user_device
+   <include refid="Base_Column_Where_IF_All" />
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="userDevice">
+    select count(1) from user_device
+   <include refid="Base_Column_Where_IF_All" />
+  </select>
+  <insert id="insert" parameterType="userDevice" >
+    insert into user_device (code, user_code, 
+      device_id, client_id, device_info, 
+      device_version, plateform, imei,imsi,wifi_mac,installed_list, del_flag, 
+      create_by, update_by, create_date, 
+      update_date)
+    values (#{code,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
+      #{deviceId,jdbcType=VARCHAR}, #{clientId,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, 
+      #{deviceVersion,jdbcType=VARCHAR}, #{plateform,jdbcType=VARCHAR},#{imei,jdbcType=VARCHAR},#{imsi,jdbcType=VARCHAR},
+	  #{wifiMac,jdbcType=VARCHAR},#{installedList,jdbcType=LONGVARCHAR} ,#{delFlag,jdbcType=TINYINT}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="userDevice" >
+    insert into user_device
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null and code != ''" >
+        code,
+      </if>
+      <if test="userCode != null and userCode != ''" >
+        user_code,
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        device_id,
+      </if>
+      <if test="clientId != null and clientId != ''" >
+        client_id,
+      </if>
+      <if test="deviceInfo != null and deviceInfo != ''" >
+        device_info,
+      </if>
+      <if test="deviceVersion != null and deviceVersion != ''" >
+        device_version,
+      </if>
+      <if test="plateform != null and plateform != ''" >
+        plateform,
+      </if>
+      <if test="imei != null and imei != ''" >
+        imei,
+      </if>
+      <if test="imsi != null and imsi != ''" >
+        imsi,
+      </if>
+      <if test="wifiMac != null and wifiMac != ''" >
+        wifi_mac,
+      </if>
+      <if test="installedList != null" >
+        installed_list,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        create_by,
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        update_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null and code != ''" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null and userCode != ''" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null and clientId != ''" >
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null and deviceInfo != ''" >
+        #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVersion != null and deviceVersion != ''" >
+        #{deviceVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="plateform != null and plateform != ''" >
+        #{plateform,jdbcType=VARCHAR},
+      </if>
+       <if test="imei != null and imei != ''" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null and imsi != ''" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="wifiMac != null and wifiMac != ''" >
+        #{wifiMac,jdbcType=VARCHAR},
+      </if>
+      <if test="installedList != null" >
+        #{installedList,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="userDevice" >
+    update user_device
+    <set >
+      <if test="userCode != null and userCode != ''" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null and clientId != ''" >
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null and deviceInfo != ''" >
+        device_info = #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVersion != null and deviceVersion != ''" >
+        device_version = #{deviceVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="plateform != null and plateform != ''" >
+        plateform = #{plateform,jdbcType=VARCHAR},
+      </if>
+       <if test="imei != null and imei != ''" >
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null and imsi != ''" >
+        imsi = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="wifiMac != null and wifiMac != ''" >
+        wifi_mac = #{wifiMac,jdbcType=VARCHAR},
+      </if>
+      <if test="installedList != null" >
+        installed_list = #{installedList,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} and del_flag=false
+  </update>
+  <update id="updateByPrimaryKey" parameterType="userDevice" >
+    update user_device
+    set user_code = #{userCode,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      client_id = #{clientId,jdbcType=VARCHAR},
+      device_info = #{deviceInfo,jdbcType=VARCHAR},
+      device_version = #{deviceVersion,jdbcType=VARCHAR},
+      plateform = #{plateform,jdbcType=VARCHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      imsi = #{imsi,jdbcType=VARCHAR},
+      wifi_mac = #{wifiMac,jdbcType=VARCHAR},
+      installed_list = #{installedList,jdbcType=LONGVARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT} and del_flag=false
+  </update>
+  <update id="updateByCode" parameterType="userDevice" >
+    update user_device
+    set user_code = #{userCode,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      client_id = #{clientId,jdbcType=VARCHAR},
+      device_info = #{deviceInfo,jdbcType=VARCHAR},
+      device_version = #{deviceVersion,jdbcType=VARCHAR},
+      plateform = #{plateform,jdbcType=VARCHAR},
+      imei = #{imei,jdbcType=VARCHAR},
+      imsi = #{imsi,jdbcType=VARCHAR},
+      wifi_mac = #{wifiMac,jdbcType=VARCHAR},
+      installed_list = #{installedList,jdbcType=LONGVARCHAR},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+      where code = #{code,jdbcType=VARCHAR} and del_flag=false
+  </update>
+  <update id="updateByCodeSelective" parameterType="userDevice" >
+    update user_device
+    <set >
+      <if test="userCode != null and userCode != ''" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null and deviceId != ''" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null and clientId != ''" >
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null and deviceInfo != ''" >
+        device_info = #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVersion != null and deviceVersion != ''" >
+        device_version = #{deviceVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="plateform != null and plateform != ''" >
+        plateform = #{plateform,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null and imei != ''" >
+        imei = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null and imsi != ''" >
+        imsi = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="wifiMac != null and wifiMac != ''" >
+        wifi_mac = #{wifiMac,jdbcType=VARCHAR},
+      </if>
+      <if test="installedList != null" >
+        installed_list = #{installedList,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR} and del_flag=false
+  </update>
+   <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update user_device
+    set del_flag = true
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="deleteByCode" parameterType="java.lang.String" >
+    update user_device
+    set del_flag = true
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+   <insert id ="insertBatch" parameterType="java.util.List" >
+  	insert into user_device (code, user_code, 
+      device_id, client_id, device_info, 
+      device_version, plateform, imei,imsi,wifi_mac,installed_list, del_flag, 
+      create_by, update_by, create_date, 
+      update_date) values
+  <foreach collection ="list" item="po" index= "index" separator =",">
+     (#{po.code,jdbcType=VARCHAR}, #{po.userCode,jdbcType=VARCHAR}, 
+      #{po.deviceId,jdbcType=VARCHAR}, #{po.clientId,jdbcType=VARCHAR}, #{po.deviceInfo,jdbcType=VARCHAR}, 
+      #{po.deviceVersion,jdbcType=VARCHAR}, #{po.plateform,jdbcType=VARCHAR}, #{po.imei,jdbcType=VARCHAR},#{po.imsi,jdbcType=VARCHAR},
+	  #{po.wifiMac,jdbcType=VARCHAR},#{po.installedList,jdbcType=LONGVARCHAR} ,#{po.delFlag,jdbcType=TINYINT}, 
+      #{po.createBy,jdbcType=VARCHAR}, #{po.updateBy,jdbcType=VARCHAR}, #{po.createDate,jdbcType=TIMESTAMP}, 
+      #{po.updateDate,jdbcType=TIMESTAMP})
+  </foreach >
+  </insert >
+</mapper>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.personal.springboot.user.dao.mapper.LoanUserMapper" >
+  <resultMap id="BaseResultMap" type="loanUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="mobile_Phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="channel_type" property="channelType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapNew" type="loanUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="mobile_Phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="channel_type" property="channelType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    
+    <collection property="optList" javaType="ArrayList"  ofType="userOperationHistory"  column="{mobilePhone=mobile_Phone}" select="com.personal.springboot.user.dao.mapper.UserOperationHistoryMapper.selectByEntity"/>
+    
+  </resultMap>
+  <!-- ,userCode=userCode -->
+  
+  <sql id="Base_Column_List" >
+    id, code, mobile_Phone, password, salt,user_type, channel_type, status, del_flag, create_by, 
+    update_by, create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from loan_user
+    where id = #{id,jdbcType=BIGINT} and del_flag = false
+  </select>
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from loan_user
+    where code = #{code,jdbcType=VARCHAR} and del_flag = false
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from loan_user
+  </select>
+  
+  <!-- BaseResultMap BaseResultMapNew -->
+  <select id="selectByEntity" resultMap="BaseResultMapNew" parameterType="loanUser">
+    select
+    <include refid="Base_Column_List" />
+    from loan_user
+    <trim prefix="WHERE" prefixOverrides="AND|OR">  
+     <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+    <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="mobilePhone != null and mobilePhone != ''" >
+        and mobile_Phone = #{mobilePhone,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null and password != ''" >
+        and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="salt != null and salt != ''" >
+        and salt = #{salt,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null and userType!= ''" >
+        and user_type = #{userType,jdbcType=VARCHAR}
+      </if>
+      <if test="channelType != null and channelType != ''" >
+        and channel_type = #{channelType,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null and status !=''" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="delFlag != null and delFlag != ''" >
+        and del_flag = #{delFlag,jdbcType=TINYINT}
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        and create_by = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        and update_by = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null and createDate != '' " >
+        and create_date = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null and updateDate != ''" >
+        and update_date = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </select>
+  <!-- selectCount -->
+  <select id="count" resultType="java.lang.Integer" parameterType="loanUser">
+    select count(*) from loan_user
+    <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+    <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if> 
+    <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="mobilePhone != null and mobilePhone != ''" >
+        and mobile_Phone = #{mobilePhone,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null and password != ''" >
+        and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="salt != null and salt != ''" >
+        and salt = #{salt,jdbcType=VARCHAR}
+      </if>
+      <if test="userType != null and userType!= ''" >
+        and user_type = #{userType,jdbcType=VARCHAR}
+      </if>
+      <if test="channelType != null and channelType != ''" >
+        and channel_type = #{channelType,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="delFlag != null" >
+        and del_flag = #{delFlag,jdbcType=TINYINT}
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        and create_by = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        and update_by = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+        and create_date = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateDate != null" >
+        and update_date = #{updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </select>
+  <insert id="insert" parameterType="loanUser" >
+    insert into loan_user (code, mobile_Phone, 
+      password,salt, user_type, channel_type, 
+      status, del_flag, create_by, 
+      update_by, create_date, update_date
+      )
+    values (#{code,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR}, #{channelType,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{delFlag,jdbcType=TINYINT}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="loanUser" >
+    insert into loan_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null and code != ''" >
+        code,
+      </if>
+      <if test="mobilePhone != null and mobilePhone != ''" >
+        mobile_Phone,
+      </if>
+      <if test="password != null and password != ''" >
+        password,
+      </if>
+      <if test="salt != null and salt != ''" >
+        salt,
+      </if>
+      <if test="userType != null and userType != ''" >
+        user_type,
+      </if>
+      <if test="channelType != null and channelType != ''" >
+        channel_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createBy != null and createBy !=''" >
+        create_by,
+      </if>
+      <if test="updateBy != null and updateBy !=''" >
+        update_by,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null" >
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null" >
+        #{channelType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="loanUser" >
+    update loan_user
+    <set >
+      <if test="mobilePhone != null and mobilePhone != ''" >
+        mobile_Phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null and salt != ''" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null and userType != ''" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null and channelType != ''" >
+        channel_type = #{channelType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} and del_flag=false
+  </update>
+  <update id="updateByPrimaryKey" parameterType="loanUser" >
+    update loan_user
+    set mobile_Phone = #{mobilePhone,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      channel_type = #{channelType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT} and del_flag=false
+  </update>
+  <update id="updateByCode" parameterType="loanUser" >
+    update loan_user
+    set mobile_Phone = #{mobilePhone,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      channel_type = #{channelType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where code = #{code,jdbcType=VARCHAR} and del_flag=false
+  </update>
+  <update id="updateByCodeSelective" parameterType="loanUser" >
+    update loan_user
+    <set>
+      <if test="mobilePhone != null and mobilePhone != ''" >
+        mobile_Phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null and salt != ''" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null and userType != ''" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null and channelType != ''" >
+        channel_type = #{channelType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null and updateBy != ''" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR} and del_flag=false
+  </update>
+   <update id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update loan_user
+    set del_flag = true
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="deleteByCode" parameterType="java.lang.String" >
+    update loan_user
+    set del_flag = true
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+</mapper>

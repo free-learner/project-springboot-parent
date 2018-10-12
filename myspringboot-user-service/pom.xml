@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yhjr.project</groupId>
+		<artifactId>project-springboot-parent</artifactId>
+		<version>0.0.1-release</version>
+	</parent>
+	<artifactId>myspringboot-user-service</artifactId>
+	<name>myspringboot-user-service</name>
+	<description>用户User模块对应的service接口服务及实现</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yhjr.project</groupId>
+			<artifactId>myspringboot-user-dao</artifactId>
+			<version>0.0.1-release</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yhjr.project</groupId>
+			<artifactId>myspringboot-base-service</artifactId>
+			<version>0.0.1-release</version>
+		</dependency>
+	</dependencies>
+
+</project>
