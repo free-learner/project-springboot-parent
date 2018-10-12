@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="6000">
+    <property name="LOG_HOME" value="/usr/local/app/logs/" /> 
+    <property name="APP_NAME" value="yhloan-front-kafka"/>
+    <property name="LOG_MAX_HISTORY" value="90" />
+    <property name="LOG_MAX_FILESIZE" value="100MB" />
+    <property name="LOG_APP_HOME" value="${LOG_HOME}/${APP_NAME}" />
+    <property name="LOG_ERROR_HOME" value="${LOG_HOME}/${APP_NAME}" />
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger Line:%-3L - %msg%n" />
+
+   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+       <layout class="ch.qos.logback.classic.PatternLayout">
+          <pattern>${LOG_PATTERN}</pattern>
+       </layout>
+    </appender>
+    <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_APP_HOME}/%d{yyyy-MM-dd}/${APP_NAME}-info.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${LOG_MAX_FILESIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+            <immediateFlush>true</immediateFlush> 
+        </encoder>
+    </appender>
+    
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter> 
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_ERROR_HOME}/%d{yyyy-MM-dd}/${APP_NAME}-error.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.apache.ibatis" additivity="true">
+        <level value="debug" />
+    </logger>
+    <logger name="java.sql.Connection" additivity="false">
+        <level value="debug" />
+    </logger>
+    <logger name="java.sql.Statement" additivity="false">
+        <level value="debug" />
+    </logger>
+    <logger name="java.sql.PreparedStatement" additivity="false">
+        <level value="debug" />
+    </logger>
+    <logger name="java.sql.ResultSet" additivity="false">
+        <level value="debug" />
+    </logger>
+    <logger name="com.yh.loan.front.credit.dao" additivity="true">
+        <level value="debug" />
+    </logger>
+    <logger name="org.apache.ibatis.io.ResolverUtil" additivity="true">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" additivity="true">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" additivity="false">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.context.support.PostProcessorRegistrationDelegate" additivity="false">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.boot.actuate.endpoint" additivity="false">
+        <level value="info" />
+    </logger>
+    <logger name="com.yh.loan.front.credit.service" additivity="true">
+        <level value="info" />
+    </logger>
+    <logger name="com.yh.loan.front" additivity="true">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.beans">
+        <level value="warn" />
+    </logger>
+    <logger name="org.springframework.binding">
+        <level value="warn" />
+    </logger>
+    <logger name="org.springframework.jdbc">
+        <level value="debug" />
+    </logger>
+    <logger name="org.springframework.transaction">
+        <level value="debug" />
+    </logger>
+    <logger name="com.alibaba.druid">
+        <level value="debug" />
+    </logger>
+    <logger name="org.springframework.web">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.boot">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.data">
+        <level value="info" />
+    </logger>
+    <logger name="org.springframework.data.redis.listener">
+        <level value="debug" />
+    </logger>
+    <logger name="org.springframework.session">
+        <level value="debug" />
+    </logger>
+    
+	<root level="info">
+    	<appender-ref ref="STDOUT"/>
+    	<appender-ref ref="APP"/>
+		<appender-ref ref="ERROR"/>
+	</root>
+	
+</configuration>
