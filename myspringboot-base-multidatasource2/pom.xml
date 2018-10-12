@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yhjr.project</groupId>
+		<artifactId>project-springboot-parent</artifactId>
+		<version>0.0.1-release</version>
+	</parent>
+	<artifactId>myspringboot-base-multidatasource2</artifactId>
+	<name>myspringboot-base-multidatasource</name>
+	<description>实现分库分表相关dao层操作配置信息</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yhjr.project</groupId>
+			<artifactId>myspringboot-common</artifactId>
+			<version>0.0.1-release</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-core</artifactId>
+			<!-- <version>1.0.0</version> -->
+            <version>${sharding-jdbc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-config-spring</artifactId>
+            <version>${sharding-jdbc.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>com.dangdang</groupId>
+            <artifactId>sharding-jdbc-self-id-generator</artifactId>
+            <version>${sharding-jdbc.version}</version>
+            <!-- <version>1.4.1</version> -->
+        </dependency>
+
+	</dependencies>
+
+</project>

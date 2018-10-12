@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yhjr.project</groupId>
+		<artifactId>project-springboot-parent</artifactId>
+		<version>0.0.1-release</version>
+	</parent>
+	<artifactId>myspringboot-base-multidatasource</artifactId>
+	<name>myspringboot-base-multidatasource</name>
+	<description>多数据源(读写分离)配置依赖模块</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yhjr.project</groupId>
+			<artifactId>myspringboot-common</artifactId>
+			<version>0.0.1-release</version>
+		</dependency>
+	</dependencies>
+    
+</project>

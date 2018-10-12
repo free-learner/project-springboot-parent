@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/resource/jdbc_dev.properties</value>
+			</list>
+		</property>
+	</bean> -->
+
+	<bean name="sharding_0" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClass" value="${datasource.jdbc.driver0}" />
+		<property name="url" value="${datasource.jdbc.url0}" />
+		<property name="username" value="${datasource.jdbc.username0}" />
+		<property name="password" value="${datasource.jdbc.password0}" />
+		<property name="initialSize" value="0" />
+		<property name="maxActive" value="20" />
+		<property name="minIdle" value="0" />
+		<property name="maxWait" value="60000" />
+		<property name="validationQuery" value="${datasource.validationQuery}" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+		<property name="filters" value="stat" />
+	</bean>
+
+	<bean name="sharding_1" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClass" value="${datasource.jdbc.driver1}" />
+		<property name="url" value="${datasource.jdbc.url1}" />
+		<property name="username" value="${datasource.jdbc.username1}" />
+		<property name="password" value="${datasource.jdbc.password1}" />
+		<property name="initialSize" value="0" />
+		<property name="maxActive" value="20" />
+		<property name="minIdle" value="0" />
+		<property name="maxWait" value="60000" />
+		<property name="validationQuery" value="${datasource.validationQuery}" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="false" />
+		<property name="filters" value="stat" />
+	</bean>
+
+</beans>
