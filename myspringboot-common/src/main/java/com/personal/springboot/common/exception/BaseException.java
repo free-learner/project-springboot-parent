@@ -8,22 +8,33 @@ package com.personal.springboot.common.exception;
  */
 public abstract class BaseException extends RuntimeException {
 
-	private static final long serialVersionUID = 6775179545328979398L;
+    private static final long serialVersionUID = 6775179545328979398L;
+    private String erroeCode;
 
-	public BaseException() {
-		super();
-	}
+    public BaseException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
 
-	public BaseException(String message) {
-		super(message);
-	}
+    protected BaseException(String erroeCode, String message) {
+        super(message);
+        this.erroeCode = erroeCode;
+    }
 
-	public BaseException(String message, Throwable throwable) {
-		super(message, throwable);
-	}
+    protected BaseException(String erroeCode) {
+        this.erroeCode = erroeCode;
+    }
 
-	public BaseException(Throwable throwable) {
-		super(throwable);
-	}
-	
+    protected BaseException(String erroeCode, String message, Throwable throwable) {
+        super(message, throwable);
+        this.erroeCode = erroeCode;
+    }
+
+    public String getErroeCode() {
+        return erroeCode;
+    }
+
+    public void setErroeCode(String erroeCode) {
+        this.erroeCode = erroeCode;
+    }
+
 }

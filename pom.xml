@@ -362,6 +362,7 @@
     	<module>myspringboot-scheduled</module>
     	<module>myspringboot-websocket</module>
     	<module>myspringboot-base-kafka</module>
+    	<module>myspringboot-base-cryption</module>
     </modules>
     
 </project>

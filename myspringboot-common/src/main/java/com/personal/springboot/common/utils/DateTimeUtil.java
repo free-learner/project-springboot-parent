@@ -642,21 +642,12 @@ public class DateTimeUtil {
 	 * @return
 	 */
 	public static int caculate2Days(Date firstDate, Date secondDate) {
-		Calendar calendar1 = Calendar.getInstance();
-		calendar1.setTime(firstDate);
-		calendar1.set(Calendar.HOUR_OF_DAY, 0);
-		calendar1.set(Calendar.MINUTE, 0);
-		calendar1.set(Calendar.SECOND, 0);
-		calendar1.set(Calendar.MILLISECOND, 0);
-		Calendar calendar2 = Calendar.getInstance();
-		calendar2.setTime(secondDate);
-		calendar2.set(Calendar.HOUR_OF_DAY, 0);
-		calendar2.set(Calendar.MINUTE, 0);
-		calendar2.set(Calendar.SECOND, 0);
-		calendar2.set(Calendar.MILLISECOND, 0);
-        long t1 = calendar1.getTime().getTime();
-        long t2 = calendar2.getTime().getTime();
-        return Math.abs((int) (t2 / 1000 - t1 / 1000) / 3600 / 24);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(firstDate);
+		int dayNum1 = calendar.get(Calendar.DAY_OF_YEAR);
+		calendar.setTime(secondDate);
+		int dayNum2 = calendar.get(Calendar.DAY_OF_YEAR);
+		return Math.abs(dayNum1 - dayNum2);
 	}
 
 	/**
@@ -746,14 +737,20 @@ public class DateTimeUtil {
 				+ "秒" + n + "毫秒";
 	}
 
-	// 计算时间差
-	public static long CalculTimeGap(String start, String end) {
-		SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	/**
+	 *  计算时间差
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static long calculTimeGap(String start, String end) {
+		SimpleDateFormat dfs = new SimpleDateFormat(DATE_TIME_PATTON_1);
 		long between = 0;
 		try {
 			java.util.Date startTime = dfs.parse(start);
 			java.util.Date endTime = dfs.parse(end);
-			between = (endTime.getTime() - startTime.getTime()) / 1000;// 除以1000是为了转换成秒
+			// 除以1000是为了转换成秒
+			between = (endTime.getTime() - startTime.getTime()) / 1000;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -762,12 +759,12 @@ public class DateTimeUtil {
 		// long minute1=between%3600/60;
 		// long second1=between%60/60;
 		// System.out.println(""+day1+"天"+hour1+"小时"+minute1+"分"+second1+"秒");
-		return between;
+		return Math.abs(between);
 	}
 
 	// 时间戳转化为String
 	public static String timeStamp2String(long timeStamp) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_PATTON_1);
 		String d = format.format(timeStamp);
 		return d;
 	}
@@ -817,7 +814,7 @@ public class DateTimeUtil {
 	
 	// 时间戳转化为Date
 	public static Date timeStamp2Date(long timeStamp) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_PATTON_1);
 		String d = format.format(timeStamp);
 		Date date = null;
 		try {
@@ -855,6 +852,13 @@ public class DateTimeUtil {
 		long secondDateL = secondDate.getTime();
 		long diff = Math.abs(firstDateL - secondDateL);
 		return diff / 1000;
+	}
+	
+	public static long caculate2MilliSecond(Date firstDate, Date secondDate) {
+	    long firstDateL = firstDate.getTime();
+	    long secondDateL = secondDate.getTime();
+	    long diff = Math.abs(firstDateL - secondDateL);
+	    return diff;
 	}
 
 	public static long caculate2MilliSecond(String startDate, String endDate) {
@@ -1293,4 +1297,61 @@ public class DateTimeUtil {
 
         return calendarStartDate.getTime();
     }
+    
+    public static void main(String[] args) throws ParseException {
+    	String s = "2017-07-31 14:00:00";
+    	Date formatStr2Date = formatStr2Date(s);
+    	int daysBetween = daysBetweenYear(formatStr2Date, 9);
+    	System.out.println("相隔天数："+daysBetween);
+	}
+    /**
+     * 增加年份后的日期
+     * @author zhaopeng
+     * 2017年7月27日 下午4:57:32
+     */
+    public static Date getEndDateByYears(Date startDate, int years) {
+        Calendar calendarStartDate = Calendar.getInstance();
+        calendarStartDate.setTime(startDate);
+        calendarStartDate.add(Calendar.YEAR, years);
+        return calendarStartDate.getTime();
+    }
+    /**
+     * 增加年份相隔天数
+     * @author zhaopeng
+     * 2017年7月27日 下午4:49:25
+     */
+    public static int daysBetweenYear(Date date ,int year) throws ParseException { 
+    	Date endDateByYears = getEndDateByYears(date, year);//增加年份后的日期
+    	int daysBetween = daysBetween(date, endDateByYears);
+		return daysBetween;
+    }
+    /**
+     * 增加月份相隔天数
+     * @author zhaopeng
+     * 2017年7月27日 下午4:49:25
+     */
+    public static int daysBetweenMonths(Date date ,int months) throws ParseException { 
+    	Date endDateByMonths = getEndDateByMonths(date, months);//增加月份后的日期
+    	int daysBetween = daysBetween(date, endDateByMonths);
+		return daysBetween;
+    }
+    
+  /**
+   * 两个日期相隔天数
+   * @author zhaopeng
+   * 2017年7月27日 下午4:39:52
+ * @throws ParseException 
+   */
+   public static int daysBetween(Date smdate,Date bdate) throws ParseException   {    
+       SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+       smdate=sdf.parse(sdf.format(smdate));  
+       bdate=sdf.parse(sdf.format(bdate));  
+       Calendar cal = Calendar.getInstance();    
+       cal.setTime(smdate);    
+       long time1 = cal.getTimeInMillis();                 
+       cal.setTime(bdate);    
+       long time2 = cal.getTimeInMillis();         
+       long between_days=(time2-time1)/(1000*3600*24);  
+      return Integer.parseInt(String.valueOf(between_days));           
+   } 
 }
