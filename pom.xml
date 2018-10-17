@@ -255,6 +255,20 @@
         </profile>
     </profiles>
     
+    <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement>
+          <plugins>
+            <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <configuration>
+                <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+              </configuration>
+            </plugin>
+          </plugins>
+       </pluginManagement>
+    
     <build>
         <!-- <defaultGoal>compile</defaultGoal>
         <filters>
