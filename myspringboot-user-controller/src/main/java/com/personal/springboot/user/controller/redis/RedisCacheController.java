@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personal.springboot.common.utils.DateTimeUtil;
-import com.personal.springboot.pubsub.Publisher;
 import com.personal.springboot.pubsub.Subscriber;
-import com.personal.springboot.pubsub.SubscriberThread;
 
 import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * RedisCacheController 相关接口

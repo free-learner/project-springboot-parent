@@ -4,4 +4,9 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true" />
     </settings>
+    <typeAliases>
+        <typeAlias type="com.personal.springboot.user.dao.entity.LoanUser" alias="loanUser"/>
+        <typeAlias type="com.personal.springboot.user.dao.entity.UserDevice" alias="userDevice"/>
+        <typeAlias type="com.personal.springboot.user.dao.entity.UserOperationHistory" alias="userOperationHistory"/>
+    </typeAliases>
 </configuration>
