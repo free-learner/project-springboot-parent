@@ -1,5 +1,7 @@
 package com.personal.springboot;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +21,17 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.personal.springboot.common.utils.DateTimeUtil;
 import com.personal.springboot.controller.base.MyGlobalController;
 import com.personal.springboot.controller.vcode.MyKaptchaServlet;
+import com.personal.springboot.qkl.QKLTestMain;
+import com.yonghui.supplychain.model.Contract;
+import com.yonghui.supplychain.model.Credit;
+import com.yonghui.supplychain.model.Expenditure;
+import com.yonghui.supplychain.model.Payback;
+import com.yonghui.supplychain.model.Register;
 
 
 /**
@@ -59,6 +70,110 @@ public class Application extends SpringBootServletInitializer implements Command
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
+        
+        String custcd="G0003010";
+        
+        Register register =new Register();
+        register.setCustcd(custcd);
+        register.setTaxpayerNo("9135010011115156XY");
+        register.setCustName("福建超创**有限公司");
+        register.setAddress("福州市台江区**庆里7号3层D172室");
+        register.setCorpScale("1");
+        register.setOrgtype("1");
+        register.setDom("福州市台江区**庆里7号3层D172室");
+        register.setDivisioncode("350100");
+        register.setBizType("f5124");
+        register.setFlag("1");
+        
+        Credit credit=new Credit();
+        credit.setCustcd(custcd);
+        credit.setAuditAmt(new BigDecimal("45000.00"));
+        credit.setBalAmt(BigDecimal.ZERO);
+        credit.setBrcode("1002");
+        credit.setBreedCreditNo("100218SX0335");
+        credit.setBreedSmallClass("PD0007");
+        credit.setCreditType("1");
+        credit.setAuditDate(DateTimeUtil.parseDatetime("2017-10-19",DateTimeUtil.DATE_PATTON_1));
+        credit.setDueDate(DateTimeUtil.parseDatetime("2017-10-19",DateTimeUtil.DATE_PATTON_1));
+        credit.setUseType("1");
+        credit.setFlag("2");
+        
+        Contract contract=new Contract();
+        contract.setCustcd(custcd);
+        contract.setContractno("G100D0002017091155");
+        contract.setIsdate(DateTimeUtil.parseDatetime("2017-10-19",DateTimeUtil.DATE_PATTON_1));
+        contract.setTedate(DateTimeUtil.parseDatetime("2019-10-19",DateTimeUtil.DATE_PATTON_1));
+        contract.setTerm("0010000000");
+        contract.setShortLoanDays(5);
+        contract.setTotamt(new BigDecimal(20000000.00));
+        contract.setFlag("3");
+        
+        Expenditure expenditure=new Expenditure();
+        expenditure.setCustno(custcd);
+        expenditure.setLncino("QYD.201806031605222190");
+        expenditure.setClrClass("1");
+        expenditure.setGperidays(3);
+        expenditure.setLnamt(new BigDecimal(20000000.00));
+        expenditure.setLnbal(new BigDecimal(20000000.00));
+        expenditure.setLnco("G100D0002017091155");
+        expenditure.setLnid("PD0007");
+        expenditure.setLnrtnmod("1");
+        expenditure.setLnstat("01");
+        expenditure.setRtndt("21");
+        expenditure.setSidt(DateTimeUtil.parseDatetime("2017-10-19",DateTimeUtil.DATE_PATTON_1));
+        expenditure.setEidt(DateTimeUtil.parseDatetime("2019-10-19",DateTimeUtil.DATE_PATTON_1));
+        expenditure.setUsdintrate(new BigDecimal(10.00));
+        expenditure.setUsdpintrate(new BigDecimal(15.00));
+        expenditure.setFlag("4");
+        
+        Payback payback=new Payback();
+        payback.setCustcd(custcd);
+        payback.setLncino("ANO.201806031605222190");
+        payback.setRtnamt(new BigDecimal("45000.00"));
+        //payback.setCreateDate(DateTimeUtil.parseDatetime("2018-10-19",DateTimeUtil.DATE_PATTON_1));
+        payback.setCreateDate(DateTimeUtil.currentDate());
+        payback.setRtnint(BigDecimal.ZERO);
+        payback.setRtnpint(BigDecimal.ZERO);
+        payback.setFeeAmt(BigDecimal.ZERO);
+        payback.setLoanAmt(payback.getRtnamt().add(payback.getRtnint()).add(payback.getRtnpint()));
+        payback.setTransDate(DateTimeUtil.formatDate2Str());
+        payback.setFlag("5");
+        
+        
+        QKLTestMain test = new QKLTestMain();
+        Gson gson = new GsonBuilder().setDateFormat(DateTimeUtil.DATE_TIME_PATTON_1).create();
+        try {
+            test.testInsert(gson.toJson(expenditure));
+            LOGGER.info("expenditure:{}",gson.toJson(expenditure));
+            Thread.sleep(2000);
+            test.testInsert(gson.toJson(payback));
+            LOGGER.info("payback:{}",gson.toJson(payback));
+            Thread.sleep(2000);
+            test.testInsert(gson.toJson(register));
+            LOGGER.info("register:{}",gson.toJson(register));
+            Thread.sleep(2000);
+            test.testInsert(gson.toJson(credit));
+            LOGGER.info("credit:{}",gson.toJson(credit));
+            Thread.sleep(2000);
+            test.testInsert(gson.toJson(contract));
+            LOGGER.info("contract:{}",gson.toJson(contract));
+            Thread.sleep(2000);
+            test.testInsert(gson.toJson(payback));
+            LOGGER.info("payback:{}",gson.toJson(payback));
+//            Thread.sleep(2000);
+//            test.testQueryById(); 
+//            LOGGER.info("testQueryById执行结束");
+            Thread.sleep(2000);
+            test.testQueryByDate();
+            LOGGER.info("testQueryByDate执行结束");
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            LOGGER.error("数据操作异常!",e);
+        }finally {
+            System.exit(200);
+        }
+        
+        
     }
 
     @Override
