@@ -58,9 +58,11 @@ public class UserClientTest {
     @Test
     public void testQueryById() {
         Map<String,String> map = new HashMap<>();
+        String   privateKey1="BLeEQjZpVjl3qZx3BARKlmuQCFhCuVT7qowrwHVToCcYJgu19RMvaXqXmLrlUJoTxUur/+fGsUGgr4TGr+j++kg8iAWslA300MS6yuIga5fDQucdfznUbfpyT0IEFr6fxtwli+9+WTL6zTSThV5OcmqmXvL3";
+        String org1="org1";
         map.put("org", org1);
         map.put("privateKey",privateKey1);
-        map.put("txId", "txId123456789");
+        map.put("txId", "bd1586726d63c24c4658006039ceaf8baaa9eaa49a5aa12af2324ac8e6e01ae6");
         String queryResult = UserClient.queryById(map);
         LOGGER.info("queryById结果为:{}",JSON.toJSONString(queryResult));
     }

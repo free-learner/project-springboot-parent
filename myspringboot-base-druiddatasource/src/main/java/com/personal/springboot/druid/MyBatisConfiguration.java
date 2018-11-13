@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -45,6 +46,7 @@ public class MyBatisConfiguration {
     
     @Bean
     public SqlSessionFactory buildSqlSessionFactory(DataSource dataSource) throws Exception {
+        VFS.addImplClass(org.mybatis.spring.boot.autoconfigure.SpringBootVFS.class);
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setConfigLocation(configLocation);
