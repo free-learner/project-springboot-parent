@@ -30,7 +30,7 @@ public class MainTest2 implements HandlerCallback {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainTest2.class);
     
     private static final String custcd="G0003010";
-    private static final String queryDate = "2018-11-06";
+    private static final String queryDate = "2018-11-13";
     
     /**
      * falg 参数 1对应着注册查询 2-授信 3-合同 4-支用 5-回款
@@ -112,8 +112,8 @@ public class MainTest2 implements HandlerCallback {
 //        test.testInsert(gson.toJson(contract));
         test.testInsert(gson.toJson(expenditure));
 //        test.testInsert(gson.toJson(payback));
-//        test.testQueryById();
-//        test.testQueryByDate();
+        test.testQueryById();
+        test.testQueryByDate();
     }
     
     /**
