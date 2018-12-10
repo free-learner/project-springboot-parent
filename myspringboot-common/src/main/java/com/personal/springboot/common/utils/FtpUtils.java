@@ -115,7 +115,7 @@ public class FtpUtils {
                 // 关闭Ftp连接
                 closeFTPClient();
                 // 释放空间
-                ftp = null;
+                //ftp = null;
                 throw new Exception("登录FTP服务器失败,请检查![Server:" + server + "、" + "User:" + uname + "、" + "Password:" + password);
             } else {
                 //FTPClient.enterLocalPassiveMode();要写在 ftpClient.setFileType(FTP.BINARY_FILE_TYPE);  的前面否则虽然不报错但文件上传后依然一直报错
@@ -129,7 +129,7 @@ public class FtpUtils {
             }
         } catch (Exception e) {
             ftp.disconnect();
-            ftp = null;
+            //ftp = null;
             throw e;
         }
     }
