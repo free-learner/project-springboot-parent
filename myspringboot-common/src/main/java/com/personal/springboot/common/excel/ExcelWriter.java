@@ -25,6 +25,8 @@ import com.personal.springboot.common.utils.DateTimeUtil;
 
 /**
  * 生成excel2003和2007格式文件
+ * 推荐使用：SXSSFWorkbook
+ * XSSFWorkbook在创建Excel、或者说写Excel的时候内存开销是很大的。
  */
 public class ExcelWriter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelWriter.class);
