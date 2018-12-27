@@ -45,7 +45,9 @@ import com.yonghui.supplychain.model.Register;
  * 当启动脚本中包含参数--spring.profiles.active=test时以启动脚本为主
  * nohup java -Xms2048M -Xmx2048M -Xmn512M -Xss256K -jar yhloan-front-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=test > /dev/null 2>&1 &
  * 简化:
+ * -Xms512m -Xmx1024m -Xmn512m -Djava.awt.headless=true -XX:MaxPermSize=128m
  * java -jar yhloan-front-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=test
+ * 
  * 
  * @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan
  * 
