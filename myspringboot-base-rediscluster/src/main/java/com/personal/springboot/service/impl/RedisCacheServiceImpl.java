@@ -45,7 +45,7 @@ public class RedisCacheServiceImpl implements RedisCacheService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisCacheServiceImpl.class);
     
-    @Value("${redis.cache.prefix}")
+    @Value("${redis.cache.prefix:dev}")
     private String cachePrefix;
     
     @Value("${redis.cache.topic:topic}")
